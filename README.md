@@ -1,2 +1,2 @@
-# Fuse
-Fuse 8.0
+# DashboardFuse
+DashboardFuse
