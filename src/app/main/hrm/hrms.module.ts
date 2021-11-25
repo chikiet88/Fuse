@@ -7,7 +7,7 @@ DanhsachnhanvienModule
 const routes = [
     {
         path        : '/danhsachnhanvien',
-        loadChildren: './danhsachnhanvien/danhsachnhanvien/danhsachnhanvien.module'
+        loadChildren: () => import('./danhsachnhanvien/danhsachnhanvien/danhsachnhanvien.module').then(m => m.default)
     }
 ];
 
