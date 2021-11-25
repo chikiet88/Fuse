@@ -14,7 +14,6 @@ export class DynamicFlatNode {
  * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
  * the descendants data from the database.
  */
-@Injectable()
 export class DynamicDatabase {
   dataMap = new Map<string, string[]>([
     ['Fruits', ['Apple', 'Orange', 'Banana']],
@@ -60,7 +59,7 @@ export class DynamicDataSource {
               private _database: DynamicDatabase) {}
 
   connect(collectionViewer: CollectionViewer): Observable<DynamicFlatNode[]> {
-    this._treeControl.expansionModel.changed.subscribe(change => {
+    this._treeControl.expansionModel.onChange.subscribe(change => {
       if ((change as SelectionChange<DynamicFlatNode>).added ||
         (change as SelectionChange<DynamicFlatNode>).removed) {
         this.handleTreeControl(change as SelectionChange<DynamicFlatNode>);

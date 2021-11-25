@@ -25,10 +25,10 @@ export class ScrumboardCardDialogComponent implements OnInit, OnDestroy
     toggleInArray = FuseUtils.toggleInArray;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
-    @ViewChild('checklistMenuTrigger')
+    @ViewChild('checklistMenuTrigger', {static: false})
     checklistMenu: MatMenuTrigger;
 
-    @ViewChild('newCheckListTitleField')
+    @ViewChild('newCheckListTitleField', {static: false})
     newCheckListTitleField;
 
     // Private

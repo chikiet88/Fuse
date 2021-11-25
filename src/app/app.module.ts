@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TranslateModule } from '@ngx-translate/core';
+import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -23,27 +24,27 @@ import { LayoutModule } from 'app/layout/layout.module';
 const appRoutes: Routes = [
     {
         path        : 'hrms',
-        loadChildren: () => import('./main/hrm/hrms.module').then(m => m.HrmsModule)
+        loadChildren: './main/hrm/hrms.module#HrmsModule'
     },
     {
         path        : 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
+        loadChildren: './main/apps/apps.module#AppsModule'
     },
     {
         path        : 'pages',
-        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
+        loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
         path        : 'ui',
-        loadChildren: () => import('./main/ui/ui.module').then(m => m.UIModule)
+        loadChildren: './main/ui/ui.module#UIModule'
     },
     {
         path        : 'documentation',
-        loadChildren: () => import('./main/documentation/documentation.module').then(m => m.DocumentationModule)
+        loadChildren: './main/documentation/documentation.module#DocumentationModule'
     },
     {
         path        : 'angular-material-elements',
-        loadChildren: () => import('./main/angular-material-elements/angular-material-elements.module').then(m => m.AngularMaterialElementsModule)
+        loadChildren: './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
     },
     {
         path      : '**',
@@ -59,7 +60,7 @@ const appRoutes: Routes = [
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(appRoutes),
 
         TranslateModule.forRoot(),
         InMemoryWebApiModule.forRoot(FakeDbService, {
