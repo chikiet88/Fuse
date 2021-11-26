@@ -1,56 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { TranslateModule } from '@ngx-translate/core';
-import 'hammerjs';
-
-import { FuseModule } from '@fuse/fuse.module';
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
-
-import { fuseConfig } from 'app/fuse-config';
-
-import { FakeDbService } from 'app/fake-db/fake-db.service';
-import { AppComponent } from 'app/app.component';
-import { AppStoreModule } from 'app/store/store.module';
+import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
+import { FuseModule } from '@fuse';
+import { FuseConfigModule } from '@fuse/services/config';
+import { FuseMockApiModule } from '@fuse/lib/mock-api';
+import { CoreModule } from 'app/core/core.module';
+import { appConfig } from 'app/core/config/app.config';
+import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
+import { AppComponent } from 'app/app.component';
+import { appRoutes } from 'app/app.routing';
 
-const appRoutes: Routes = [
-    {
-        path        : 'hrms',
-        loadChildren: () => import('./main/hrm/hrms.module').then(m => m.HrmsModule)
-    },
-    {
-        path        : 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
-    },
-    {
-        path        : 'pages',
-        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
-    },
-    {
-        path        : 'ui',
-        loadChildren: () => import('./main/ui/ui.module').then(m => m.UIModule)
-    },
-    {
-        path        : 'documentation',
-        loadChildren: () => import('./main/documentation/documentation.module').then(m => m.DocumentationModule)
-    },
-    {
-        path        : 'angular-material-elements',
-        loadChildren: () => import('./main/angular-material-elements/angular-material-elements.module').then(m => m.AngularMaterialElementsModule)
-    },
-    {
-        path      : '**',
-        redirectTo: 'apps/dashboards/analytics'
-    }
-];
+const routerConfig: ExtraOptions = {
+    preloadingStrategy       : PreloadAllModules,
+    scrollPositionRestoration: 'enabled'
+};
 
 @NgModule({
     declarations: [
@@ -59,32 +25,21 @@ const appRoutes: Routes = [
     imports     : [
         BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, routerConfig),
 
-        TranslateModule.forRoot(),
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay             : 0,
-            passThruUnknownUrl: true
-        }),
+        // Fuse, FuseConfig & FuseMockAPI
+        FuseModule,
+        FuseConfigModule.forRoot(appConfig),
+        FuseMockApiModule.forRoot(mockApiServices),
 
-        // Material moment date module
-        MatMomentDateModule,
+        // Core module of your application
+        CoreModule,
 
-        // Material
-        MatButtonModule,
-        MatIconModule,
-
-        // Fuse modules
-        FuseModule.forRoot(fuseConfig),
-        FuseProgressBarModule,
-        FuseSharedModule,
-        FuseSidebarModule,
-        FuseThemeOptionsModule,
-
-        // App modules
+        // Layout module of your application
         LayoutModule,
-        AppStoreModule
+
+        // 3rd party modules that require global configuration via forRoot
+        MarkdownModule.forRoot({})
     ],
     bootstrap   : [
         AppComponent
